@@ -95,13 +95,14 @@ do
 	sed -i '1d' evasao-$i.csv
 	echo "$i	$(wc -l evasao-$i.csv | cut -d' ' -f1)" >> evasoes_por_ano.dat	
 done
-
+FORMAINGRESSO=("Aluno Intercâmbio" "Aproveitamento Curso Superior" "Convênio AUGM" "Convênio Pec-G" "Mobilidade Acadêmica" "Processo Seletivo/ENEM" Reopção "Transferência Ex-Ofício" 
+"Transferência Provar" Vestibular)
 for j in {0..4} 
 do
 	echo -n  "${ANOS[$j]} " >> evasoes-forma.txt	  
-	for i in ${QUITCURSO[*]} 
+	for i in {0..9} 
 	do
-		echo -n "$(grep "$i" evasao-${ANOS[$j]}.csv | wc -l) " >> evasoes-forma.txt
+		echo -n "$(grep "${FORMAINGRESSO[$i]}" evasao-${ANOS[$j]}.csv | wc -l) " >> evasoes-forma.txt
 	done
 echo >> evasoes-forma.txt
 done
