@@ -49,6 +49,8 @@ done
 paste arql.txt arq4.tmp >> permanencia_alunos.txt
 cat permanencia_alunos.txt
 rm *.tmp
+rm *.txt
+
 echo
 
 echo [ITEM 5]
@@ -99,13 +101,37 @@ FORMAINGRESSO=("Aluno Intercâmbio" "Aproveitamento Curso Superior" "Convênio A
 "Transferência Provar" Vestibular)
 for j in {0..4} 
 do
-	echo -n  "${ANOS[$j]} " >> evasoes-forma.txt	  
+	echo -n  "${ANOS[$j]} " >> arq.tmp	  
 	for i in {0..9} 
 	do
-		echo -n "$(grep "${FORMAINGRESSO[$i]}" evasao-${ANOS[$j]}.csv | wc -l) " >> evasoes-forma.txt
+		echo -n "$(grep "${FORMAINGRESSO[$i]}" evasao-${ANOS[$j]}.csv | wc -l) " >> arq.tmp
 	done
-echo >> evasoes-forma.txt
+echo >> arq.tmp
 done
-#column -t -s, evasoes-forma.txt >> 
+column -t -s' ' arq.tmp >> evasoes-ingresso.dat 
+rm *.tmp
+
+gnuplot -persist <<EU
+set terminal png size 1500,1000
+set output 'evasoes-forma.png'
+set yrange [0:110]
+set style data histograms
+set style histogram cluster gap 1
+set style fill solid
+set boxwidth 0.9
+set xtics format ""
+set grid ytics
+set title "Evasoes Formas"
+plot "evasoes-ingresso.dat" using 2:xtic(1) title "Aluno intercambio" , \
+'' using 3 title "Aproveitamento Curso Superior", \
+'' using 4 title "Convenio AUMG", \
+'' using 5 title "Convenio PEC-G", \
+'' using 6 title "Mobilidade Academica", \
+'' using 7 title "Enem", \
+'' using 8 title "Reopcao", \
+'' using 9 title "Transferiencia ex-oficio", \
+'' using 10 title "Provar", \
+'' using 11 title "Vestibular"
+EU
 #[ITEM 5] grep -o "numero" file
 
