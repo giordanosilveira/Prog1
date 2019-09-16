@@ -2,7 +2,6 @@ ANOS=(Geral 2014 2015 2016 2017 2018)
 ARQUIVOS=(all_evasoes.csv evasao-2014.csv evasao-2015.csv evasao-2016.csv evasao-2017.csv evasao-2018.csv)
 QUITCURSO=(Abandono "Cancelamento Pedido" "Descumprimento Edital" "Desistência" "Desistência Vestibular" Formatura "Não Confirmação de Vaga" 
 	"Novo Vestibular" Reopção "Término de Registro Temporário" Falecimento Jubilamento "Cancelamento a Pedido do Calouro" "Cancelamento Administrativo")
-tar -xzf evasao2014-18.tar.gz
 cd evasao
 
 for i in {1..5}
@@ -147,3 +146,6 @@ plot "evasoes-ingresso.dat" using 2:xtic(1) title "Aluno intercambio" , \
 '' using 10 title "Provar", \
 '' using 11 title "Vestibular"
 EU
+
+mv evasoes-anos.png ../
+mv evasoes-forma.png ../
