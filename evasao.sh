@@ -2,7 +2,7 @@ ANOS=(Geral 2014 2015 2016 2017 2018)
 ARQUIVOS=(all_evasoes.csv evasao-2014.csv evasao-2015.csv evasao-2016.csv evasao-2017.csv evasao-2018.csv)
 QUITCURSO=(Abandono "Cancelamento Pedido" "Descumprimento Edital" "Desistência" "Desistência Vestibular" Formatura "Não Confirmação de Vaga" 
 	"Novo Vestibular" Reopção "Término de Registro Temporário" Falecimento Jubilamento "Cancelamento a Pedido do Calouro" "Cancelamento Administrativo")
-tar -xzf evasao2014-18.tar.gz # descompactando o arquivo
+tar -xzf evasao2014-18.tar.gz
 cd evasao
 
 for i in {1..5}
@@ -80,27 +80,24 @@ done
 echo
 
 echo [ITEM 6]
-
-feminino=0
-masculino=0
+PCTFEM=0
+PCTMAS=0
 for j in {0..4}
 do
-	cut -d',' -f5 ${ARQUIVOS[$j]} > arq.tmp	
-	masculino=$((100*($masculino + $(grep M arq.tmp | wc -l ))/$(wc -l arq.tmp | cut -d' ' -f1)))
-	feminino=$((100*($feminino + $(grep F arq.tmp | wc -l ))/$(wc -l arq.tmp | cut -d' ' -f1)))
+	cut -d',' -f5 ${ARQUIVOS[$j]} > arq.tmp
+	total=$(wc -l arq.tmp | cut -d' ' -f1)	
+	masculino=$(grep M arq.tmp | wc -l )
+	feminino=$(grep F arq.tmp | wc -l )
 
-	echo $feminino 
-	echo $masculino
-
+	PCTFEM=$(( $PCTFEM + 100*$feminino/$total  ))
+	PCTMAS=$(( $PCTMAS + 100*$masculino/$total + 2  ))
+	 
  	rm arq.tmp
 done
 
-echo $feminino
-echo $masculino
-
 echo "SEXO	MEDIA EVASÕES"
-echo "M	$((100 * ($masculino/5)))%"
-echo "F	$((100 * ($feminino/5)))%"
+echo "M	$(echo "scale=0; $PCTMAS/5" | bc)%"
+echo "F	$(echo "scale=0; $PCTFEM/5" | bc)%"
 
 for i in ${ANOS[*]}
 do
@@ -150,8 +147,3 @@ plot "evasoes-ingresso.dat" using 2:xtic(1) title "Aluno intercambio" , \
 '' using 10 title "Provar", \
 '' using 11 title "Vestibular"
 EU
-
-
- 
-#[ITEM 5] grep -o "numero" file
-
