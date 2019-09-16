@@ -4,6 +4,12 @@ QUITCURSO=(Abandono "Cancelamento Pedido" "Descumprimento Edital" "Desistência"
 	"Novo Vestibular" Reopção "Término de Registro Temporário" Falecimento Jubilamento "Cancelamento a Pedido do Calouro" "Cancelamento Administrativo")
 tar -xzf evasao2014-18.tar.gz # descompactando o arquivo
 cd evasao
+
+for i in {1..5}
+do
+	sed -i '1d' ${ARQUIVOS[$i]}
+done
+ 
 cat *.csv > all_evasoes.csv # todos arquivos que tem .csv vão para um arquivo só
 echo [ĨTEM 3]
 for j in {0..5} # Anda pelos os anos
@@ -29,7 +35,6 @@ ANOS=(2014 2015 2016 2017 2018)
 for i in {0..4}
 do
 	cut -d',' -f4 ${ARQUIVOS[$i]} >> arq2.tmp
-	sed -i '1d' arq2.tmp
 
 	INGRESSO=$(cat arq2.tmp)
 	for j in ${INGRESSO[*]}
@@ -57,7 +62,6 @@ echo [ITEM 5]
 for i in {0..4} # anda pelos anos
 do
 	cut -d',' -f2 ${ARQUIVOS[$i]} >> arq.tmp 
-	sed -i '1d' arq.tmp 
 	TOTAL=$(wc -l arq.tmp | cut -d' ' -f1 )	
 
 	PSEMESTRE=$(grep 1o arq.tmp | wc -l ) 
@@ -77,24 +81,29 @@ echo
 
 echo [ITEM 6]
 
-SEXO=(M F)
-cut -d',' -f5 all_evasoes.csv > arq.tmp
-TOTAL=0
-for i in ${SEXO[*]}
+feminino=0
+masculino=0
+for j in {0..4}
 do
-	A=$(grep $i arq.tmp | wc -l)
-	TOTAL=$(($TOTAL + $A))
+	cut -d',' -f5 ${ARQUIVOS[$j]} > arq.tmp	
+	masculino=$((100*($masculino + $(grep M arq.tmp | wc -l ))/$(wc -l arq.tmp | cut -d' ' -f1)))
+	feminino=$((100*($feminino + $(grep F arq.tmp | wc -l ))/$(wc -l arq.tmp | cut -d' ' -f1)))
+
+	echo $feminino 
+	echo $masculino
+
+ 	rm arq.tmp
 done
 
-echo "SEXO	MEDIA EVASÕES"
-echo "M	$((100*$(grep ${SEXO[0]} arq.tmp | wc -l)/$TOTAL))%"
-echo "F	$((100*$(grep ${SEXO[1]} arq.tmp | wc -l)/$TOTAL + 1))%"
+echo $feminino
+echo $masculino
 
-rm *arq.tmp
+echo "SEXO	MEDIA EVASÕES"
+echo "M	$((100 * ($masculino/5)))%"
+echo "F	$((100 * ($feminino/5)))%"
 
 for i in ${ANOS[*]}
 do
-	sed -i '1d' evasao-$i.csv
 	echo "$i	$(wc -l evasao-$i.csv | cut -d' ' -f1)" >> evasoes_por_ano.dat	
 done
 FORMAINGRESSO=("Aluno Intercâmbio" "Aproveitamento Curso Superior" "Convênio AUGM" "Convênio Pec-G" "Mobilidade Acadêmica" "Processo Seletivo/ENEM" Reopção "Transferência Ex-Ofício" 
@@ -111,6 +120,14 @@ done
 column -t -s' ' arq.tmp >> evasoes-ingresso.dat 
 rm *.tmp
 
+gnuplot -persist << fim
+set term png size 600,600
+set output "evasoes-anos.png"
+set ylabel "evasoes"
+set xlabel "anos"
+plot "evasoes_por_ano.dat" using 1:2 with lines
+fim
+ 
 gnuplot -persist <<EU
 set terminal png size 1500,1000
 set output 'evasoes-forma.png'
@@ -133,5 +150,8 @@ plot "evasoes-ingresso.dat" using 2:xtic(1) title "Aluno intercambio" , \
 '' using 10 title "Provar", \
 '' using 11 title "Vestibular"
 EU
+
+
+ 
 #[ITEM 5] grep -o "numero" file
 
