@@ -2,6 +2,7 @@ ANOS=(Geral 2014 2015 2016 2017 2018)
 ARQUIVOS=(all_evasoes.csv evasao-2014.csv evasao-2015.csv evasao-2016.csv evasao-2017.csv evasao-2018.csv)
 QUITCURSO=(Abandono "Cancelamento Pedido" "Descumprimento Edital" "Desistência" "Desistência Vestibular" Formatura "Não Confirmação de Vaga" 
 	"Novo Vestibular" Reopção "Término de Registro Temporário" Falecimento Jubilamento "Cancelamento a Pedido do Calouro" "Cancelamento Administrativo")
+#tar -vzxf evasao2014-18.tar.gz
 cd evasao
 
 for i in {1..5}
@@ -22,8 +23,9 @@ do
 	done
 	echo
 	echo ${ANOS[$j]}
-	awk -F, '{ print $NF, $0 }' temp.txt | sort -nr -k1 | sed 's/^[0-9][0-9]* //' | cut -d' ' -f3-8 # ordena, pela ultima coluna, de modo decrescente, qual forma de evasão predominou aquele ano.
-	rm temp.txt
+	awk -F, '{ print $NF, $0 }' temp.txt | sort -nr -k1 | sed 's/^[0-9][0-9]* //' | cut -d' ' -f3-8 >> ARQ.txt # ordena, pela ultima coluna, de modo decrescente, qual forma de evasão predominou aquele ano.
+	column -t -s',' ARQ.txt
+	rm *.txt
 done
 echo
 
