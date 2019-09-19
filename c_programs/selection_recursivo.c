@@ -1,27 +1,36 @@
 #include<stdio.h>
 #define MAX 100
 
-int achamax (int *v, int t, int *m) {	
+void troca (int * v, int t, int m) {
+	int aux;
+
+	aux=v[t];
+	v[t]=v[m];
+	v[m]=aux;
+}
+
+void achamax (int *v, int t, int *m) {	
 	if ( t >= 0 ) {
 		if ( v[*m] < v[t] ) 
 			*m=t;
 		achamax (v,t-1,m);
-	}
-	return *m;
-		
+	}	
 }
-void selection_sort (int *v, int t, int m); {
+void selection_sort (int *v, int t, int * m) {
+	if (t>=1) {
 
-	if (m < v[t-1]) and (t>=0) {
-		m=v[t-1];
-		selection_sort (v,t--,m);
+		/*achando o maior*/
+		*m=t;
+		achamax (v,t-1,m);
+		printf ("%d %d %d %d\n", *m, v[*m], t, v[t]);
+
+		/*trocando*/
+		troca (v,t,*m);
+
+		selection_sort (v,t-1,m);
+		 
 	}
-	else
-		selection_sort (v,t-i,m);
-
-}
-
-	
+}	
 void ler_vetor (int * v, int t) {
 
 	int i;
@@ -48,10 +57,10 @@ int main (void) {
 	ler_vetor (vetor,tam);
 	max=tam-1;
 
-	maior = achamax (vetor,tam-2,&max);
+	achamax (vetor,tam-2,&max);
 	printf ("O posição do maior é: %d\n", max );
 	
-	//selection_sort (vetor,tam,v[tam]);
+	selection_sort (vetor,tam-1,&max);
 
 	escrever_vetor (vetor,tam);
 
