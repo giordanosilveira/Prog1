@@ -1,4 +1,4 @@
-#define MAX 1024
+#define MAX 100
 
 struct pilha {
 	int topo;
