@@ -1,7 +1,7 @@
 #include "tad_pilha.h"
 
 
-void topocializa_pilha (tad_pilha *p) {
+void inicializa_pilha (tad_pilha *p) {
 	p->topo=-1;
 }
 int pilha_vazia (tad_pilha *p) {
@@ -28,7 +28,7 @@ int desempilha (char *t, tad_pilha *p) {
 	p->topo--;
 	return 1;
 }
-int topo (char *t, tad_pilha *p) {
+int topo (int *t, tad_pilha *p) {
 	if (pilha_vazia(p))
 		return 0;
 	*t=p->vetor[p->topo];

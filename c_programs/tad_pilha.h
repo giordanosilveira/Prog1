@@ -26,6 +26,6 @@ int desempilha (char *, tad_pilha *);
 
 /*retorna em t o elemento do topo da pilha sem desempilhar*/
 /*retora 1 se a operação foi bem sucedida, 0 caso contrário*/
-int topo (char *, tad_pilha *);
+int topo (int *, tad_pilha *);
 
 
