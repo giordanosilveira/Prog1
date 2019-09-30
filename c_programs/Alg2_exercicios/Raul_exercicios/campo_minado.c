@@ -1,9 +1,14 @@
 #include <stdio.h>
+
 #define MAX 12
 #define BOMBA -1
 #define VAZIO 0
-#define ANDAMENTO 1
 #define BORDA -5
+#define ACABOU 0
+/*is for status only*/
+#define DERROTA -1
+#define ANDAMENTO 0
+#define VITORIA 1
 
 struct conteudo {
 	int revel, info;
@@ -30,7 +35,7 @@ void colocar_bombas (T_campominado *);
 int check_vizinhos (T_campominado *,int ,int );
 void inicializa_campo (T_campominado *);
 void vizinhos_com_bombas (T_campominado *);
-void ler_jogada (T_campominado *,T_coordenada);
+void ler_jogada (T_campominado *,T_coordenada *);
 
 
 void imprimir_tabuleiro (T_campominado *jogo) {
@@ -46,12 +51,12 @@ void imprimir_tabuleiro (T_campominado *jogo) {
 	}
 
 }
-void ler_jogada (T_campominado *jogo, T_coordenada jogada) {
+void ler_jogada (T_campominado *jogo, T_coordenada *jogada) {
 	/*the player choose a line and column to make a move, but in diferent location */
 	printf ("Choose a line and the column\n");
 	do 
-		scanf ("%d %d", &jogada.linha, &jogada.coluna);
-	while (jogo->tabuleiro[jogada.linha][jogada.coluna].revel == 1);
+		scanf ("%d %d", &jogada->linha, &jogada->coluna);
+	while (jogo->tabuleiro[jogada->linha][jogada->coluna].revel == 1);
 	
 }
 void inicializa_campo (T_campominado *jogo) {
@@ -117,6 +122,33 @@ int check_vizinhos (T_campominado *jogo, int i, int j) {
 	}
 	return cont++;
 }
+void executar_jogada (T_campominado *jogo, T_coordenada jogada) {
+
+	T_coordenada coord;
+	int cont;
+	Tad_pilha p;
+	
+	if (jogo->tabuleiro[jogada.linha][jogada.coluna].info == BOMBA) {
+		jogo->status = DERROTA;
+		revelar_jogo (jogo);
+	}
+	else {
+		cont = 1;
+		jogo->tabuleiro[jogada.linha][jogada.coluna].revel = 1;
+		if (jogo->tabuleiro[jogada.linha][jogada.coluna].info == VAZIO) {
+			coord.linha=jogada.linha;
+			coord.coluna=jogada.coluna;
+			inicializa_pilha (p);
+			empilha (coord,p);
+			/*cont = expande_vizinhos (,p);*/
+		}
+		jogo->falta_abrir = jogo->falta_abrir - cont;
+		if (jogo->falta_abrir == ACABOU) {
+			jogo->status = VITORIA;
+		}
+	}
+
+}
 void main () {
 
 	T_campominado jogo;
@@ -125,13 +157,12 @@ void main () {
 	inicializa_campo(&jogo);
 	imprimir_tabuleiro (&jogo);
 
-	/*do
-		ler_jogada(&jogo,jogada);
-		executar_jogada(jogo)
-	while ((ganhou(jogo)) || (perdeu(jogo)))
+	/*do*/
+		ler_jogada(&jogo,&jogada);
+		executar_jogada(&jogo,jogada);
+	/*while ((ganhou(jogo)) || (perdeu(jogo)))
 	if (perdeu(jogo)) 
 		printf ("Tente outra vez amigo");
 	else
 		pritnf ("Você é um campeão meu amigo");*/
-
 }
