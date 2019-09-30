@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define MAX 50
+#define MAX 12
 #define BOMBA -1
 #define VAZIO 0
 #define ANDAMENTO 1
@@ -16,42 +16,43 @@ struct campominado {
 	int falta_abrir; /*number of bombs left to open*/
 	int status;
 };
-
 typedef struct campominado T_campominado;
+struct coordenada {
+	int linha;
+	int coluna;
+};
+typedef struct coordenada T_coordenada;
+
+
+void imprimir_tabuleiro (T_campominado *);
+void zerar_tabuleiro (T_campominado *);
+void colocar_bombas (T_campominado *);
+int check_vizinhos (T_campominado *,int ,int );
+void inicializa_campo (T_campominado *);
+void vizinhos_com_bombas (T_campominado *);
+void ler_jogada (T_campominado *,T_coordenada);
+
+
 void imprimir_tabuleiro (T_campominado *jogo) {
+/*print the board*/
 
 	int i,j;
-	for (i=0;i<=jogo->tam_tab+1;i++) 
-		for (j=0;j<=jogo->tam_tab+1;j++)
-			printf ("%d ", jogo->tabuleiro[i][j]->info) ;
-
-}
-void zera_tabuleiro (T_campominado **jogo) {
-
-	int i,j;
-	for (i=0;i<=jogo->tam_tab+1;i++){
-		for (j=0;j<=jogo->tam_tab+1;j++) {
-			if (jogo->tabuleiro[0][i]->info || jogo->tabuleiro[i][0]->info || jogo->tabuleiro[jogo->tam_tab][i]->info || jogo->tabuleiro[i][jogo->tam_tab]->info)
-				jogo->tabuleiro[i][j]->info = BORDA;
-			else
-				jogo->tabuleiro[i][j]->info = VAZIO;
-			jogo->tabuleiro[i][j]->revel = 0;
+	for (i=1;i<=jogo->tam_tab;i++) { 
+		for (j=1;j<=jogo->tam_tab;j++) {
+			if (jogo->tabuleiro[i][j].revel != 0)
+				printf ("%d ", jogo->tabuleiro[i][j].info);
 		}
-	}	
- 
-}
-void colocar_bombas (T_campominado **jogo) {
-
-	int bomba,i,j;
-	bomba=1;
-	while (bomba<=jogo->n_bombas) {
-		i = 1 + rand () % jogo->tam_tab;
-		j = 1 + rand () % jogo->tam_tab;
-		if (jogo->tabuleiro[i][j]->info != BOMBA) {
-			bomba++;	
-			jogo->tabuleiro[i][j]->info = BOMBA;
-		}
+		printf ("\n");
 	}
+
+}
+void ler_jogada (T_campominado *jogo, T_coordenada jogada) {
+	/*the player choose a line and column to make a move, but in diferent location */
+	printf ("Choose a line and the column\n");
+	do 
+		scanf ("%d %d", &jogada.linha, &jogada.coluna);
+	while (jogo->tabuleiro[jogada.linha][jogada.coluna].revel == 1);
+	
 }
 void inicializa_campo (T_campominado *jogo) {
 
@@ -61,20 +62,71 @@ void inicializa_campo (T_campominado *jogo) {
 	scanf ("%d", &jogo->n_bombas);
 	jogo->falta_abrir = jogo->tam_tab*jogo->tam_tab - jogo->n_bombas; /*falta_abrir receive the number house from board minus the number of bombs*/
 	jogo->status = ANDAMENTO; 
-	zera_tabuleiro (&jogo); /*clear the board*/
-	colocar_bombas (&jogo); /*put the bombs in the board*/
-	/*vizinhos_bombas (&jogo);*/ /*this location gets the number of neighboring bombs*/
+	zerar_tabuleiro (jogo); /*clear the board*/
+	colocar_bombas (jogo); /*put the bombs in the board*/
+	vizinhos_com_bombas (jogo); /*this location gets the number of neighboring bombs*/
 
+}
+void zerar_tabuleiro (T_campominado *jogo) {
+/*this function starts the board with zeros and put a border around the board*/
+	int i,j;
+	for (i=0;i<=jogo->tam_tab+1;i++){
+		for (j=0;j<=jogo->tam_tab+1;j++) {
+			if (i==0 || j==0 || i==jogo->tam_tab+1 || j==jogo->tam_tab+1) 
+				jogo->tabuleiro[i][j].info = BORDA;
+			else 
+				jogo->tabuleiro[i][j].info = VAZIO;
+			jogo->tabuleiro[i][j].revel = 0;
+		}
+	}	
+ 
+}
+void colocar_bombas (T_campominado *jogo) {
+/*this function puts, ramdomly, bombs in the board*/
+	int bomba,i,j;
+	bomba=1;
+	while (bomba<=jogo->n_bombas) {
+		i = 1 + rand () % jogo->tam_tab;
+		j = 1 + rand () % jogo->tam_tab;
+		if (jogo->tabuleiro[i][j].info != BOMBA) {
+			bomba++;	
+			jogo->tabuleiro[i][j].info = BOMBA;
+		}
+	}
+}
+void vizinhos_com_bombas (T_campominado *jogo) {
+
+	int i,j;
+	for (i=1;i<=jogo->tam_tab;i++){
+		for (j=1;j<=jogo->tam_tab;j++){
+			if (jogo->tabuleiro[i][j].info == VAZIO)
+				jogo->tabuleiro[i][j].info = check_vizinhos (jogo,i,j);
+		}
+	}
+
+}
+int check_vizinhos (T_campominado *jogo, int i, int j) {
+
+	int cont,l,c;
+	cont=0;
+	for (l=i-1;l<=i+1;l++) {
+		for (c=j-1;c<=j+1;c++) {
+			if (jogo->tabuleiro[l][c].info == BOMBA)
+				cont++;
+		}
+	}
+	return cont++;
 }
 void main () {
 
 	T_campominado jogo;
+	T_coordenada jogada;
 
 	inicializa_campo(&jogo);
 	imprimir_tabuleiro (&jogo);
 
 	/*do
-		ler_jogada(jogo)
+		ler_jogada(&jogo,jogada);
 		executar_jogada(jogo)
 	while ((ganhou(jogo)) || (perdeu(jogo)))
 	if (perdeu(jogo)) 
