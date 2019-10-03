@@ -18,14 +18,12 @@ int tamanho_pilha (tad_pilha *);
 
 /*empilha o inteiro x na pilha*/
 /*retorna 1 se foi bem sucedido, 0 caso contrário*/
-int empilha (char , tad_pilha *);
+int empilha (float , tad_pilha *);
 
 /*retorna em t o elemento do topo da pilha*/
 /*retorna 1 se a operação foi bem sucedida, 0 caso contrário*/
-int desempilha (char *, tad_pilha *);
+int desempilha (float *, tad_pilha *);
 
 /*retorna em t o elemento do topo da pilha sem desempilhar*/
 /*retora 1 se a operação foi bem sucedida, 0 caso contrário*/
-int topo (int *, tad_pilha *);
-
-
+int topo (float *, tad_pilha *);
