@@ -1,6 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include "tad_pilha_coord.h"
 
-#define MAX 12
 #define BOMBA -1
 #define VAZIO 0
 #define BORDA -5
@@ -42,6 +43,8 @@ void imprimir_tabuleiro (T_campominado *jogo) {
 /*print the board*/
 
 	int i,j;
+	
+	system("clear");
 	for (i=1;i<=jogo->tam_tab;i++) { 
 		for (j=1;j<=jogo->tam_tab;j++) {
 			if (jogo->tabuleiro[i][j].revel != 0)
@@ -122,11 +125,52 @@ int check_vizinhos (T_campominado *jogo, int i, int j) {
 	}
 	return cont++;
 }
+void revelar_jogo (T_campominado *jogo) {
+
+	int i,j;
+
+	for (i=1;i<=jogo->tam_tab;i++) {
+		for (j=1;j<=jogo->tam_tab;j++)
+			printf ("%d ", jogo->tabuleiro[i][j].info);
+		printf ("\n");
+	}
+}
+int eh_borda (int i, int j, T_campominado *jogo) {
+
+	if (jogo->tabuleiro[i][j].info == BORDA)
+		return 1;
+	return 0;
+}
+int expande_vizinhos (T_campominado *jogo,tad_pilha *p) {
+
+	T_coord Qatual, vizinho;
+	int cont,i,j;
+	
+	cont = 0;
+	while (pilha_vazia(p) == 0) {
+		if ( desempilha (&Qatual,p) ) {
+			for (i=Qatual.x-1;i<=Qatual.x+1;i++) {
+				for (j=Qatual.y-1;j<=Qatual.y+1;j++) {
+					if (jogo->tabuleiro[i][j].info != BOMBA && jogo->tabuleiro[i][j].info != VAZIO)
+						jogo->tabuleiro[i][j].revel = 1;
+					if (jogo->tabuleiro[i][j].revel == 0 && jogo->tabuleiro[i][j].info == VAZIO && eh_borda(i,j,jogo)==0) {
+						vizinho.x=i;
+						vizinho.y=j;
+						jogo->tabuleiro[i][j].revel = 1;
+						if (empilha (vizinho,p))
+						cont ++;
+					}
+				}
+			}
+		}
+	}
+	return cont;
+}
 void executar_jogada (T_campominado *jogo, T_coordenada jogada) {
 
-	T_coordenada coord;
+	T_coord coord;
 	int cont;
-	Tad_pilha p;
+	tad_pilha p;
 	
 	if (jogo->tabuleiro[jogada.linha][jogada.coluna].info == BOMBA) {
 		jogo->status = DERROTA;
@@ -136,11 +180,11 @@ void executar_jogada (T_campominado *jogo, T_coordenada jogada) {
 		cont = 1;
 		jogo->tabuleiro[jogada.linha][jogada.coluna].revel = 1;
 		if (jogo->tabuleiro[jogada.linha][jogada.coluna].info == VAZIO) {
-			coord.linha=jogada.linha;
-			coord.coluna=jogada.coluna;
-			inicializa_pilha (p);
-			empilha (coord,p);
-			/*cont = expande_vizinhos (,p);*/
+			coord.x=jogada.linha;
+			coord.y=jogada.coluna;
+			inicializa_pilha (&p);
+			empilha (coord,&p);
+			cont = expande_vizinhos (jogo,&p);
 		}
 		jogo->falta_abrir = jogo->falta_abrir - cont;
 		if (jogo->falta_abrir == ACABOU) {
@@ -149,20 +193,34 @@ void executar_jogada (T_campominado *jogo, T_coordenada jogada) {
 	}
 
 }
+int ganhou (T_campominado *jogo) {
+
+	if (jogo->status == VITORIA)
+		return 1;
+	return 0;
+}
+int perdeu (T_campominado *jogo) {
+
+	if (jogo->status == DERROTA)
+		return 1;
+	return 0;
+}
 void main () {
 
 	T_campominado jogo;
 	T_coordenada jogada;
 
 	inicializa_campo(&jogo);
-	imprimir_tabuleiro (&jogo);
+	revelar_jogo (&jogo);
+	/*imprimir_tabuleiro (&jogo);*/
 
-	/*do*/
+	do {
 		ler_jogada(&jogo,&jogada);
 		executar_jogada(&jogo,jogada);
-	/*while ((ganhou(jogo)) || (perdeu(jogo)))
-	if (perdeu(jogo)) 
+		imprimir_tabuleiro(&jogo);
+	} while ((perdeu(&jogo) == 0) || ganhou(&jogo) != 1);
+	if (perdeu(&jogo)) 
 		printf ("Tente outra vez amigo");
 	else
-		pritnf ("Você é um campeão meu amigo");*/
+		printf ("Você é um campeão meu amigo");
 }
