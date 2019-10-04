@@ -2,7 +2,7 @@
 
 struct pilha {
 	int topo;
-	char vetor[MAX];
+	double vetor[MAX];
 };
 
 typedef struct pilha tad_pilha;
@@ -18,12 +18,12 @@ int tamanho_pilha (tad_pilha *);
 
 /*empilha o inteiro x na pilha*/
 /*retorna 1 se foi bem sucedido, 0 caso contrário*/
-int empilha (float , tad_pilha *);
+int empilha (double , tad_pilha *);
 
 /*retorna em t o elemento do topo da pilha*/
 /*retorna 1 se a operação foi bem sucedida, 0 caso contrário*/
-int desempilha (float *, tad_pilha *);
+int desempilha (double *, tad_pilha *);
 
 /*retorna em t o elemento do topo da pilha sem desempilhar*/
 /*retora 1 se a operação foi bem sucedida, 0 caso contrário*/
-int topo (float *, tad_pilha *);
+int topo (double *, tad_pilha *);

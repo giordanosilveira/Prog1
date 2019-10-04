@@ -20,7 +20,7 @@ int eh_numero (char *str, int t) {
 }
 void efetua_operacao (char *str, long t, tad_pilha *p) {
 
-	float var1,var2,res;
+	double var1,var2,res;
 
 	switch (eh_numero(str,t)) {
 		case -4 : 
@@ -34,31 +34,35 @@ void efetua_operacao (char *str, long t, tad_pilha *p) {
 				empilha(res,p);
 			}
 		}
+		printf (">  %f\n", res);
 		break;
 				
 		case -3 : 
 		if (desempilha(&var2,p)) {
 			if (desempilha(&var1,p)) {	
-				res = var1 - var2;
+				res = var2 - var1;
 				empilha (res,p);
 			}
 			else {
 				res = var2 - var2;
+				empilha (res,p);
 			}
-		}
+		}	
+		printf ("> %f\n", res);
 		break;
 				
 		case -2 : 
 		if (desempilha(&var2,p)) {
 			if (desempilha(&var1,p)) {
 				res = var2 * var1;
-				empilha (res,p);	
+				empilha (res,p);
 			}
 			else {
 				res = var2*var2;
 				empilha (res,p);
 			}
 		}
+		printf ("> %f\n", res);
 		break;			
 					
 		case -1 : 
@@ -80,7 +84,8 @@ void efetua_operacao (char *str, long t, tad_pilha *p) {
 					empilha (res,p);
 				}
 			}
-		}
+		}	
+		printf ("> %f\n", res);
 		break;
 						
 		case -5 : printf ("Entrada inválida\n");
@@ -98,7 +103,7 @@ int main () {
 
 	char str[MAX];
 	long tam;
-	float valor,resultado; 
+	double valor,resultado; 
 	tad_pilha p;
 
 	inicializa_pilha (&p);
@@ -125,4 +130,3 @@ int main () {
 			printf ("Resultado = %f\n", resultado);
 	}	
 } 
-

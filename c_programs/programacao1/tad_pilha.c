@@ -14,21 +14,21 @@ int tamanho_pilha (tad_pilha *p) {
 		return 0;
 	return p->topo+1;
 }
-int empilha (float x, tad_pilha *p) {
+int empilha (double x, tad_pilha *p) {
 	if ( p->topo == MAX-1 )
 		return 0;
 	p->topo++;
 	p->vetor[p->topo]=x;
 	return 1;
 }
-int desempilha (float *t, tad_pilha *p) {
+int desempilha (double *t, tad_pilha *p) {
 	if (pilha_vazia(p))
 		return 0;
 	*t=p->vetor[p->topo];
 	p->topo--;
 	return 1;
 }
-int topo (float *t, tad_pilha *p) {
+int topo (double *t, tad_pilha *p) {
 	if (pilha_vazia(p))
 		return 0;
 	*t=p->vetor[p->topo];
