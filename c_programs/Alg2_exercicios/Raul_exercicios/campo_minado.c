@@ -60,6 +60,7 @@ void ler_jogada (T_campominado *jogo, T_coordenada *jogada) {
 	do 
 		scanf ("%d %d", &jogada->linha, &jogada->coluna);
 	while (jogo->tabuleiro[jogada->linha][jogada->coluna].revel == 1);
+	printf ("%d %d\n", jogada->linha, jogada->coluna);
 	
 }
 void inicializa_campo (T_campominado *jogo) {
@@ -173,6 +174,7 @@ void executar_jogada (T_campominado *jogo, T_coordenada jogada) {
 	tad_pilha p;
 	
 	if (jogo->tabuleiro[jogada.linha][jogada.coluna].info == BOMBA) {
+		printf ("Perdeu playboy");
 		jogo->status = DERROTA;
 		revelar_jogo (jogo);
 	}
