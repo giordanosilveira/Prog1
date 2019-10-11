@@ -72,7 +72,8 @@ int main () {
 
 			printf ("matriz 2 !?\n");
 			ler_matriz (&mat2);
-
+			
+			printf ("vai todo mundo tomar no cu");
 			mat3.linha = mat1.linha; mat3.coluna=mat2.coluna;
 			mat3.matriz = aloca_matriz (mat3);
 				if (mat3.matriz != NULL){
