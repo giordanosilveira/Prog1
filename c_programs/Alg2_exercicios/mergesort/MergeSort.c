@@ -1,8 +1,11 @@
 #include <stdio.h>
-#define MAX 1000
+#include <stdlib.h>
+#include <time.h>
+#define MAX 100000
 void gera_vetor (int *e, int t) {
 	
 	int i;
+	srand (time(NULL));
 	for (i=0;i<t;i++)
 		e[i] = rand() % MAX;
 
@@ -14,26 +17,28 @@ void merge (int *e, int ini, int meio, int fim) {
 	j=ini;
 	k=meio+1;
 	l=0;
-	while (j<=meio && k<=fim) {
-		if (e[j] <= e[k]) {
+	if (e[meio]>e[meio+1]) {
+		while (j<=meio && k<=fim) {
+			if (e[j] <= e[k]) {
+				tmp[l]=e[j];
+				j++; l++;
+			}
+			else {
+				tmp[l]=e[k];
+				k++; l++;
+			}
+		}
+		while (j<=meio) {
 			tmp[l]=e[j];
 			j++; l++;
 		}
-		else {
+		while (k<=fim) {
 			tmp[l]=e[k];
 			k++; l++;
 		}
+		for (l=ini;l<=fim;l++)
+			e[l] = tmp[l-ini];
 	}
-	while (j<=meio) {
-		tmp[l]=e[j];
-		j++; l++;
-	}
-	while (k<=fim) {
-		tmp[l]=e[k];
-		k++; l++;
-	}
-	for (l=ini;l<=fim;l++)
-		e[l] = tmp[l-ini];
 }
 void MergeSort (int *e, int i, int f) {
 
@@ -59,7 +64,8 @@ int main (void) {
 
 	printf ("vector length\n");
 	scanf ("%d", &tam);
-
+	
+	entrada=(int *)malloc(sizeof(int)*tam);
 	gera_vetor (entrada,tam);
 	
 	MergeSort (entrada,0,tam);
