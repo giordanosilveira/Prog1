@@ -26,13 +26,13 @@ void troca (int *a, int *b){
 	*b=aux;
 }
 int particiona (int *ent, int ini, int fim) {
-/*particiona pivo inicio*/
+/*particiona pivo meio*/
 	
 	int i,j,pivo;
 	i=ini+1;
 	j=ini;
 	pivo=ent[(ini+fim)/2];
-	troca (&pivo,&ent[ini]);
+	troca (&ent[(ini+fim)/2],&ent[ini]);
 	for (i = ini+1; i <= fim; i++){
 		if (ent[i]<pivo) {
 			troca (&ent[i],&ent[j]);
