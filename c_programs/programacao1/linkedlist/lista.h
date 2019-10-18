@@ -10,17 +10,17 @@ struct t_lista {
 };
 typedef struct t_lista t_lista;
 
-int cria_lista(t_lista *l)
-/*Cria uma lista vazia, isto  ́e, aponta paraNULLe cont ́em tamanho zero; 
-Retorna 1 se a opera ̧c ̃aofoi bem sucedida e zero caso contrario;*/
+int cria_lista(t_lista *l);
+/*Cria uma lista vazia, isto  ́e, aponta para NULL e contém tamanho zero; 
+Retorna 1 se a operação foi bem sucedida e zero caso contrario;*/
 
-int lista_vazia(t_lista *l)
-/*Retorna 1 se a lista est ́a vazia e zero caso contrario;*/
+int lista_vazia(t_lista *l);
+/*Retorna 1 se a lista está vazia e zero caso contrario;*/
 
-void destroi_lista(t_lista *l)
+void destroi_lista(t_lista *l);
 /*Remove todos os elementos da lista e faz com que ela aponte paraNULL;*/
 
-int insere_inicio_lista(int x, t_lista *l)
+int insere_inicio_lista(int x, t_lista *l);
 /*Insere  o  elemento  x  no  inıcio  da  lista;*/  
 /*Retorna  1  se  a  opera ̧c ̃ao  foi  bem  sucedida  e  zero  caso contrario;*/
 
