@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <ncurses.h>
-
+#include <unisted.h>
 #define CASA_VAZIA ' '
 #define CASA_CHEIA '*'
 #define MORTE 0
@@ -131,8 +130,10 @@ int main (void) {
 		imprimir_tabuleiro (&vida);
 
 		while (vida.n_geracoes--) {
+			printf("\e[1;1H\e[2J");
 			vidaoumorte (&vida);
 			imprimir_tabuleiro (&vida);
+			usleep (100000);
 		}  
 	
 	}
