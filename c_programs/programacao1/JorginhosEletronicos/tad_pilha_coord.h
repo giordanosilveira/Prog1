@@ -10,7 +10,7 @@ struct pilha {
 	T_coord vetor[MAX];
 };
 
-typedef struct pilha tad_pilha_coord;
+typedef struct pilha tad_pilha;
 
 /*inicializa pilha*/
 void inicializa_pilha (tad_pilha *);

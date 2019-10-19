@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <unisted.h>
+#include <unistd.h>
+#include "tad_pilha_coord.h"
+
 #define CASA_VAZIA ' '
 #define CASA_CHEIA '*'
 #define MORTE 0
@@ -16,7 +18,6 @@ typedef struct T_jogo T_jogo;
 
 void aloca_matriz (T_jogo *vida) {
 	
-	printf ("banana\n");
 	int i;
 	vida->geracao=(int **)malloc(sizeof(int *)*(vida->linhas+2));	
 	vida->nova_geracao=(int **)malloc(sizeof(int *)*(vida->linhas+2));
@@ -50,8 +51,8 @@ void inicia_geracao (T_jogo *vida) {
 void imprimir_tabuleiro (T_jogo *vida) {
 
 	int i,j;
-	for (i = 0; i < vida->linhas + 1; i++) {
-		for (j = 0; j < vida->colunas + 1; j++)
+	for (i = 1; i < vida->linhas + 1; i++) {
+		for (j = 1; j < vida->colunas + 1; j++)
 			printf ("%d ", vida->geracao[i][j]);
 		printf ("\n");
 	}
@@ -74,32 +75,44 @@ int conta_vizinhos (T_jogo *vida, int i, int j) {
 	return cont;
 
 }
-void atualiza_geracao (T_jogo *vida, int i, int j){
-
-	vida->geracao[i][j]=vida->nova_geracao[i][j];
+void atualiza_geracao (T_jogo *vida, tad_pilha *p){
+	T_coord c;
+	
+	if (desempilha(&c,p));
+	while (pilha_vazia(p) == 0) {
+		vida->geracao[c.x][c.y]=vida->nova_geracao[c.x][c.y];
+		if (desempilha(&c,p));
+	}
 }
 void novageracao (T_jogo *vida, int i, int j, int cont) {
 	
-
 	if (cont < 2 || cont > 3) 
 		vida->nova_geracao[i][j] = MORTE;
 	else if (cont == 2)
 		vida->nova_geracao[i][j] = vida->geracao[i][j];
-	else
+	else if (cont == 3)
 		vida->nova_geracao[i][j] = VIDA;
 		
 }
 void vidaoumorte (T_jogo *vida) {
 
 	int i,j,cont; 
+	tad_pilha posicoes;
+	T_coord coord;
 	
+	inicializa_pilha (&posicoes);
 	for (i = 1; i <= vida->linhas; i++) {
 		for (j = 1; j <= vida->colunas; j++) {
 				cont = conta_vizinhos (vida,i,j);
-				novageracao (vida,i,j,cont);
-				atualiza_geracao (vida,i,j);
+				if (cont != 0) {
+					novageracao (vida,i,j,cont);
+					coord.x=i;
+					coord.y=j;
+					if (empilha(coord,&posicoes));
+				}
 		}
 	}
+	atualiza_geracao (vida,&posicoes);
 }
 void  ler_celulas (T_jogo *vida) {
 
@@ -128,12 +141,12 @@ int main (void) {
 		inicia_geracao (&vida);
 		ler_celulas (&vida);
 		imprimir_tabuleiro (&vida);
-
+		printf ("\n");
 		while (vida.n_geracoes--) {
-			printf("\e[1;1H\e[2J");
+			printf ("\e[1;1H\e[2J");
 			vidaoumorte (&vida);
 			imprimir_tabuleiro (&vida);
-			usleep (100000);
+			usleep (800000);
 		}  
 	
 	}
