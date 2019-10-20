@@ -1,4 +1,4 @@
-#define MAX 100
+#define MAX 1000000
 
 struct coord {
 	int x,y;

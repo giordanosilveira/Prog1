@@ -1,20 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-<<<<<<< HEAD
 #include <unistd.h>
 #include "tad_pilha_coord.h"
 
-=======
-<<<<<<< HEAD
-#include <ncurses.h>
-#include <unistd.h>
-#include "tad_pilha_coord.h"
-
-=======
-#include <unisted.h>
->>>>>>> d873defb3757e00966e87a30019efcec5603627d
->>>>>>> e98ac03e91773c9a4dd603495c24904b363a5a72
 #define CASA_VAZIA ' '
 #define CASA_CHEIA '*'
 #define MORTE 0
@@ -64,7 +53,10 @@ void imprimir_tabuleiro (T_jogo *vida) {
 	int i,j;
 	for (i = 1; i < vida->linhas + 1; i++) {
 		for (j = 1; j < vida->colunas + 1; j++)
-			printf ("%d ", vida->geracao[i][j]);
+			if (vida->geracao[i][j]==MORTE)
+				printf ("%c ", CASA_VAZIA);
+			else
+				printf ("%c ", CASA_CHEIA);
 		printf ("\n");
 	}
 }
@@ -154,15 +146,7 @@ int main (void) {
 		imprimir_tabuleiro (&vida);
 		printf ("\n");
 		while (vida.n_geracoes--) {
-<<<<<<< HEAD
-			printf ("\e[1;1H\e[2J");
-=======
-<<<<<<< HEAD
-			printf ("\e[1;1H\e[2J");
-=======
 			printf("\e[1;1H\e[2J");
->>>>>>> d873defb3757e00966e87a30019efcec5603627d
->>>>>>> e98ac03e91773c9a4dd603495c24904b363a5a72
 			vidaoumorte (&vida);
 			imprimir_tabuleiro (&vida);
 			usleep (800000);
