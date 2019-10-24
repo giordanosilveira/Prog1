@@ -1,14 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-<<<<<<< HEAD
-#include <ncurses.h>
 #include <unistd.h>
 #include "tad_pilha_coord.h"
 
-=======
-#include <unisted.h>
->>>>>>> d873defb3757e00966e87a30019efcec5603627d
 #define CASA_VAZIA ' '
 #define CASA_CHEIA '*'
 #define MORTE 0
@@ -148,14 +143,10 @@ int main (void) {
 		imprimir_tabuleiro (&vida);
 		printf ("\n");
 		while (vida.n_geracoes--) {
-<<<<<<< HEAD
 			printf ("\e[1;1H\e[2J");
-=======
-			printf("\e[1;1H\e[2J");
->>>>>>> d873defb3757e00966e87a30019efcec5603627d
 			vidaoumorte (&vida);
 			imprimir_tabuleiro (&vida);
-			usleep (100000);
+			usleep (800000);
 		}  
 	
 	}

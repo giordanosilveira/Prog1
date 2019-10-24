@@ -16,7 +16,7 @@ void destroi_lista(t_lista *l) {
 
 int insere_inicio_lista(int x, t_lista *l) {
 	
-	t_nodo new_no;
+	t_nodo *new_no;
 
 	new_no=(t_nodo *)malloc(sizeof(t_nodo));
 	if (new_no != NULL) {
@@ -30,22 +30,49 @@ int insere_inicio_lista(int x, t_lista *l) {
 }
 int insere_fim_lista(int x, t_lista *l) {
 
-	t_nodo aux;
+	t_nodo *new, *p;
 	
-	aux=(t_nodo *) malloc (sizeof(t_nodo));
-	if (aux==NULL)
-		return 0;	
-	if (l->ini == NULL) {
-		aux->elemento = x;
-		l->ini=aux;
+	if (lista_vazia(l)) {
+		insere_inicio_lista (x,l);
+		return 1;
 	}
-	aux=l->ini;
-	while (aux->prox != NULL) 
-		aux = aux->prox;
 
+	new=(t_nodo *) malloc (sizeof(t_nodo));
+	if (new==NULL)
+		return 0;
+
+	l->tam++;
+	new->prox=NULL;
+	
+	p = l->ini;
+	while (p->prox != NULL) {
+		p = p->prox;
+	}	
+	p->prox=new;
 }
+
 int insere_ordenado_lista(int x, t_lista *l); 
-int remove_primeiro_lista(t_item *item, t_lista *l);
+int remove_primeiro_lista(int *item, t_lista *l) {
+
+	t_nodo *ant;
+
+	if (lista_vazia(l))
+		return 0;
+	
+	*item = l->ini->chave;
+	l->tam--;
+
+	/*caso especial se a lista tem só um elemento*/
+	if (l->ini->prox==NULL) {
+		free(l->ini);
+		l->ini = NULL;
+		return 1;
+	}
+	
+	l->ini = l->ini->prox;
+	
+	
+}
 int remove_ultimo_lista(t_item *item, t_lista *l);
 int remove_item_lista(int chave, t_item *item, t_lista *l);
 int pertence_lista(int chave, t_lista *l);
