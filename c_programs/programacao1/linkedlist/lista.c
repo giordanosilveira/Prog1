@@ -54,7 +54,6 @@ int insere_fim_lista(int x, t_lista *l) {
 int insere_ordenado_lista(int x, t_lista *l); 
 int remove_primeiro_lista(int *item, t_lista *l) {
 
-	t_nodo *ant;
 
 	if (lista_vazia(l))
 		return 0;
@@ -63,19 +62,119 @@ int remove_primeiro_lista(int *item, t_lista *l) {
 	l->tam--;
 
 	/*caso especial se a lista tem só um elemento*/
-	if (l->ini->prox==NULL) {
+	if (l->ini->prox == NULL) {
 		free(l->ini);
 		l->ini = NULL;
 		return 1;
 	}
 	
 	l->ini = l->ini->prox;
+	return 1;
 	
 	
 }
-int remove_ultimo_lista(t_item *item, t_lista *l);
-int remove_item_lista(int chave, t_item *item, t_lista *l);
-int pertence_lista(int chave, t_lista *l);
-int concatena_listas(t_lista *l, t_lista *m);
-int copia_lista(t_lista *l, t_lista *m);
+int remove_ultimo_lista(int *item, t_lista *l) {
+
+	t_nodo *p;
+	
+	if (lista_vazia(l))
+		return 0;
+
+	l->tam--;
+
+	/*se a lista tem somente um elemento*/
+	p=(t_nodo *)malloc(sizeof(t_nodo));
+	if (p == NULL)
+		return 0;
+
+	if (l->ini->prox == NULL){
+		return remove_primeiro_lista (item,l);
+	}
+
+	/*caso geral*/
+	p=l->ini;
+	while (p->prox->prox != NULL) {
+		p=p->prox;
+	}
+	free (p->prox);
+	p->prox=NULL;
+	return 1;
+}
+int remove_item_lista(int chave, int *item, t_lista *l) {
+
+	if (lista_vazia(l))
+		return 0;
+	
+	t_nodo *p, *q;
+	if (l->ini->chave == chave) {
+		l->tam--;
+		return (remove_primeiro_lista(item,l));
+	}
+	
+	/*caso geral*/
+	p = l->ini;
+	while (p->prox != NULL && p->chave != chave){
+		q = p;
+		p = p->prox;
+	}
+	if (p->chave == chave){
+		l->tam--;
+		q->prox = p->prox;
+		free (p);
+	}
+	printf ("Elemento não encontrado\n");
+	return 0;
+}
+int pertence_lista(int chave, t_lista *l) {
+
+	if (lista_vazia(l))
+		return 0;
+	
+	t_nodo *p;
+	p = l->ini;
+	while (p->prox != NULL && p->chave != chave)
+		p = p->prox;
+	if (p->chave == chave)
+		return 1;
+	printf ("Elemento não encontrado");
+
+}
+int concatena_listas(t_lista *l, t_lista *m) {
+
+	if (lista_vazia(l)) {
+		l->ini = m->ini;
+		m->ini = NULL;
+		l->tam = m->tam; 
+		cria_lista (m);
+		return 1;
+	}
+	
+	/*caso geral*/
+	t_nodo *p;
+	p = p->ini;
+	while (p->prox != NULL)
+		p = p->prox;
+	p->prox = m->ini;
+	m->ini = NULL;
+	l->tam = l->tam + m->tam;
+	cria_lista (m);
+	return 1;
+}
+int copia_lista(t_lista *l, t_lista *m) {
+
+	if (lista_vazia (l))
+		return 0;
+
+	m->tam = l->tam;
+
+	t_nodo *p;
+
+	p = l->ini;
+	while (p->prox != NULL) {
+		insere_fim_lista (p->chave,m);
+		p = p->prox;
+	}
+	insere_fim_lista (p->chave,m);
+
+}
 
