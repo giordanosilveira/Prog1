@@ -53,7 +53,10 @@ void imprimir_tabuleiro (T_jogo *vida) {
 	int i,j;
 	for (i = 1; i < vida->linhas + 1; i++) {
 		for (j = 1; j < vida->colunas + 1; j++)
-			printf ("%d ", vida->geracao[i][j]);
+			if (vida->geracao[i][j]==MORTE)
+				printf ("%c ", CASA_VAZIA);
+			else
+				printf ("%c ", CASA_CHEIA);
 		printf ("\n");
 	}
 }
@@ -143,7 +146,11 @@ int main (void) {
 		imprimir_tabuleiro (&vida);
 		printf ("\n");
 		while (vida.n_geracoes--) {
+<<<<<<< HEAD:c_programs/programacao1/JorginhosEletronicos/jogo_da_vida.c
 			printf ("\e[1;1H\e[2J");
+=======
+			printf("\e[1;1H\e[2J");
+>>>>>>> a67d04ae6fccc03388478770669bd9d6a39f5369:c_programs/programacao1/JorginhosEletronicos/jogodavida/jogo_da_vida.c
 			vidaoumorte (&vida);
 			imprimir_tabuleiro (&vida);
 			usleep (800000);
