@@ -32,17 +32,17 @@ int insere_ordenado_lista(int x, t_lista *l); /*Insere o elemento x na lista de 
 Retorna 1 se a opera ̧c ̃ao foi bem sucedida e zero caso contr ́ario;*/
 /*void imprime_lista(t_lista *l);Imprime os elementos da lista, do inıcio ao final.  Se ela for vazia nao imprime nada, nem um \n*/
 
-int remove_primeiro_lista(t_item *item, t_lista *l);
+int remove_primeiro_lista(int *item, t_lista *l);
 /*Remove o primeiro elemento da lista e o retorna em *item;  
 Retorna 1 se a operacao foi bem sucedida e zero caso contrario;*/
 
-int remove_ultimo_lista(t_item *item, t_lista *l);
+int remove_ultimo_lista(int *item, t_lista *l);
 /*Remove  o   ́ultimo  elemento  da  lista  e  o  retorna  em *item;  
 Retorna  1  se  a  operacão  foi  bemsucedida e zero caso contrario;*/
 
-int remove_item_lista(int chave, t_item *item, t_lista *l);
-/*Se  o  elementochaveexistir  na  lista,  o  retorna  em *item;  
-Retorna  1  se  a  operação  foi  bem sucedida e zero caso contrário (elemento n ̃ao encontrado tamb ́em retorna zero);*/
+int remove_item_lista(int chave, int *item, t_lista *l);
+/*Se o elemento chave existir na lista, o retorna em *item;  
+Retorna 1 se a operação foi bem sucedida e zero caso contrário (elemento nao encontrado também retorna zero);*/
 
 int pertence_lista(int chave, t_lista *l);
 /*Retorna 1 se o elemento contendo a chave chave existe na lista, caso contrario retorna zero;*/

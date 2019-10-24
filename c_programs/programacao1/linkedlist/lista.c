@@ -51,7 +51,38 @@ int insere_fim_lista(int x, t_lista *l) {
 	p->prox=new;
 }
 
-int insere_ordenado_lista(int x, t_lista *l); 
+int insere_ordenado_lista(int x, t_lista *l) {
+
+	if (lista_vazia(l))
+		return insere_inicio_lista (x,l);
+
+	t_nodo *new;
+
+	/*se a lista tem só um elemento*/
+	if (l->ini->prox == NULL) {
+		if (x > l->ini->chave)
+			return insere_fim_lista (x,l);
+		else
+			return insere_inicio_lista (x,l);
+	}
+	
+	/*se a lista não tem nenhum elemento*/
+	if (l->ini == NULL)
+		return insere_inicio_lista (x,l);
+
+	/*caso geral*/
+	
+	new=(t_nodo *)malloc(sizeof(t_nodo))
+	if (new == NULL)
+		return 0;
+
+	new=l->ini;
+	while (new->prox != NULL && x < new->chave)
+		new = new->prox;
+
+	if (x => new->chave)
+		
+} 	
 int remove_primeiro_lista(int *item, t_lista *l) {
 
 
@@ -175,6 +206,5 @@ int copia_lista(t_lista *l, t_lista *m) {
 		p = p->prox;
 	}
 	insere_fim_lista (p->chave,m);
-
 }
 
