@@ -122,8 +122,8 @@ int testa_remocoes(t_lista *l, t_lista *o, t_lista *c) {
     imprime_lista(l);
     printf("\n");
     printf("Remocao no final: remove todos de o\n");
-    /*while (! lista_vazia(o))*/
-    while (o->tam)
+    while (! lista_vazia(o))
+   /* while (o->tam)*/
         if (! remove_ultimo_lista(&item,o)) return 0;
     printf("o: ");
     imprime_lista(o);

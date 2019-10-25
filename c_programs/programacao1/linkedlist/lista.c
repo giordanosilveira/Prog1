@@ -156,12 +156,12 @@ int remove_ultimo_lista(int *item, t_lista *l) {
 	}
 
 	/*caso geral*/
-	p=l->ini;
+	p = l->ini;
 	while (p->prox->prox != NULL) {
-		p=p->prox;
+		p = p->prox;
 	}
 	free (p->prox);
-	p->prox=NULL;
+	p->prox = NULL;
 	return 1;
 }
 int remove_item_lista(int elemento, int *item, t_lista *l) {
