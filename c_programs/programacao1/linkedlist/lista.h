@@ -1,6 +1,6 @@
 struct t_nodo {
 	int elemento;
-	struct nodo *; prox;
+	struct t_nodo * prox;
 };
 typedef struct t_nodo t_nodo;
 

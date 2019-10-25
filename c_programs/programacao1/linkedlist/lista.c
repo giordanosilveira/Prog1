@@ -6,15 +6,14 @@ void imprime_lista (t_lista *l) {
 	
 	t_nodo *p;
 
-	if (lista_vazia(l))
-		printf ("Lista vazia\n");
-	else {
+	if (lista_vazia(l) != 1) {
 		p = l->ini;
-		printf ("O tamanho é %d", l->tam);
+		printf ("O tamanho é %d\n", l->tam);
 		while (p->prox != NULL) {
 			printf ("%d ", p->elemento);
 			p = p->prox;
 		}
+		printf ("%d ", p->elemento);
 		printf ("\n");
 	}
 
@@ -34,11 +33,9 @@ int lista_vazia(t_lista *l) {
 
 void destroi_lista(t_lista *l) {
 
-	t_nodo *q, *p;
+	t_nodo *p;
 	
-	if (lista_vazia(l))
-		printf ("Lista vazia\n");
-	else {
+	if (lista_vazia(l) != 1) {
 		p=l->ini;
 		while (p->prox != NULL) {
 			l->ini = p->prox;
@@ -60,7 +57,7 @@ int insere_inicio_lista(int x, t_lista *l) {
 		new_no->elemento = x;
 		new_no->prox= l->ini;
 		l->ini = new_no;
-		l-tam++;
+		l->tam++;
 		return 1;
 	}
 	return 0;
@@ -70,8 +67,7 @@ int insere_fim_lista(int x, t_lista *l) {
 	t_nodo *new, *p;
 	
 	if (lista_vazia(l)) {
-		insere_inicio_lista (x,l);
-		return 1;
+		return insere_inicio_lista (x,l);
 	}
 
 	new=(t_nodo *) malloc (sizeof(t_nodo));
@@ -87,6 +83,7 @@ int insere_fim_lista(int x, t_lista *l) {
 	}
 	new->elemento = x;	
 	p->prox=new;
+	return 1;
 }
 
 int insere_ordenado_lista(int x, t_lista *l) {
@@ -104,30 +101,30 @@ int insere_ordenado_lista(int x, t_lista *l) {
 			return insere_inicio_lista (x,l);
 	}
 	
-	/*se a lista não tem nenhum elemento*/
-	if (l->ini->chave > x)
+	/*inserir no começo*/
+	if (l->ini->elemento > x)
 		return insere_inicio_lista (x,l);
 
 	/*caso geral*/
 	
 
 	p=l->ini;
-	while (p->prox != NULL && x < p->elemento){
+	while (p->prox != NULL && x > p->elemento){
 		ant = p;
 		p = p->prox;
 	}
 
-	if (x => p->elemento) {
-		new=(t_nodo *)malloc(sizeof(t_nodo))
+	if (x < p->elemento) {
+		new=(t_nodo *)malloc(sizeof(t_nodo));
 		if (new == NULL)
 			return 0;
 		new->elemento = x;
 		new->prox = p;
-		q->prox = new;
+		ant->prox = new;
 		l->tam++;
 		return 1;
 	}
-	return 0;
+	return insere_fim_lista (x,l);
 		
 } 	
 int remove_primeiro_lista(int *item, t_lista *l) {
@@ -229,15 +226,20 @@ int copia_lista(t_lista *l, t_lista *m) {
 	if (lista_vazia (l))
 		return 0;
 
-	m->tam = l->tam;
 
 	t_nodo *p;
+	int i;
+
+	p = (t_nodo *)malloc(sizeof(t_nodo));
+	if (p == NULL)
+		return 0;
 
 	p = l->ini;
-	while (p->prox != NULL) {
+	for (i = 0; i < l->tam; i++) {
 		insere_fim_lista (p->elemento,m);
 		p = p->prox;
 	}
-	insere_fim_lista (p->elemento,m);
+	return 1;
 }
+
 
