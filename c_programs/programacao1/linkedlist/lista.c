@@ -8,7 +8,7 @@ void imprime_lista (t_lista *l) {
 
 	if (lista_vazia(l) != 1) {
 		p = l->ini;
-		printf ("O tamanho é %d\n", l->tam);
+		printf ("Tam: %d -> ", l->tam);
 		while (p->prox != NULL) {
 			printf ("%d ", p->elemento);
 			p = p->prox;
@@ -46,6 +46,7 @@ void destroi_lista(t_lista *l) {
 		l->tam = 0;
 		l->ini = NULL;
 	}
+	printf ("Não destruida: lista vazia\n");
 }
 
 int insere_inicio_lista(int x, t_lista *l) {
@@ -76,7 +77,8 @@ int insere_fim_lista(int x, t_lista *l) {
 
 	l->tam++;
 	new->prox=NULL;
-	
+
+	/*caso geral*/	
 	p = l->ini;
 	while (p->prox != NULL) {
 		p = p->prox;
@@ -133,11 +135,15 @@ int remove_primeiro_lista(int *item, t_lista *l) {
 	if (lista_vazia(l))
 		return 0;
 	
+	/*caso geral*/
 	*item = l->ini->elemento;
 	l->tam--;
 
+	t_nodo *aux;
+	aux = l->ini->prox;
+
 	free(l->ini);
-	l->ini = l->ini->prox;
+	l->ini = aux;
 	return 1;
 }
 int remove_ultimo_lista(int *item, t_lista *l) {
@@ -147,13 +153,14 @@ int remove_ultimo_lista(int *item, t_lista *l) {
 	if (lista_vazia(l))
 		return 0;
 
-	l->tam--;
 
 	/*se a lista tem somente um elemento*/
 
 	if (l->ini->prox == NULL){
 		return remove_primeiro_lista (item,l);
 	}
+	
+	l->tam--;
 
 	/*caso geral*/
 	p = l->ini;
@@ -170,8 +177,8 @@ int remove_item_lista(int elemento, int *item, t_lista *l) {
 		return 0;
 	
 	t_nodo *p, *q;
+	/*se o item que eu quero remover é o primeiro*/
 	if (l->ini->elemento == elemento) {
-		l->tam--;
 		return (remove_primeiro_lista(item,l));
 	}
 	
@@ -205,7 +212,7 @@ int pertence_lista(int elemento, t_lista *l) {
 	return 0;
 
 }
-int concatena_listas(t_lista *l, t_lista *m) {
+int concatena_listas(t_lista *l, t_lista *m) { /*Se ambas as listas não forem vazias ela concatena*/
 
 	if (lista_vazia(l) && lista_vazia (m)) {
 		return 0;
@@ -218,10 +225,11 @@ int concatena_listas(t_lista *l, t_lista *m) {
 		insere_fim_lista (p->elemento,l);
 		p = p->prox;
 	}
+	insere_fim_lista (p->elemento,l);
 	destroi_lista(m);
 	return 1;
 }
-int copia_lista(t_lista *l, t_lista *m) {
+int copia_lista(t_lista *l, t_lista *m) { /*se a lista l não for vazia, ela copia*/
 
 	if (lista_vazia (l))
 		return 0;
