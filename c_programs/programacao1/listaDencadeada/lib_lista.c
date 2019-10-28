@@ -37,7 +37,7 @@ int lista_vazia(t_lista *l) {
 		return 0;
 	return 1;
 }
-void destroi_lista(t_lista *l);
+//void destroi_lista(t_lista *l);
 int insere_inicio_lista(int item, t_lista *l) {
 
 	t_nodo *new;
@@ -82,7 +82,7 @@ int insere_fim_lista(int item, t_lista *l){
 
 	return 1;
 }
-int insere_ordenado_lista(int item, t_lista *l);
+//int insere_ordenado_lista(int item, t_lista *l);
 int remove_inicio_lista(int *item, t_lista *l) {
 
 	t_nodo *aux;
@@ -121,7 +121,36 @@ int remove_fim_lista(int *item, t_lista *l) {
 
 	return 1;
 }
-//int remove_item_lista(int chave, int *item, t_lista *l)
+int remove_item_lista(int chave, int *item, t_lista *l) {
+
+	t_nodo *aux;
+
+	if (lista_vazia(l))
+		return 0;
+
+	/*se o elemento esta em primeiro da lista*/
+	if (chave == l->ini->prox->chave) {
+		return (remove_inicio_lista(item,l));
+	}
+
+	/*se o elemento esta em ultimo da lista*/
+	if (chave == l->fim->prev->chave)
+		return (remove_fim_lista(item,l));
+
+	/*caso geral*/
+	int i;
+	
+	aux = l->ini->prev->prev;
+	for (i = 2; i < l->tamanho; i++) {
+		if (chave == aux->chave) {
+			*item = aux->chave;
+			l->tamanho--;
+			return 1;
+		}
+		aux = aux->prev;
+	}
+	return 0;
+}
 int pertence_lista(int chave, t_lista *l) {
 
 	t_nodo *aux;
@@ -139,9 +168,50 @@ int pertence_lista(int chave, t_lista *l) {
 		return 1;
 	return 0;
 }
-//int inicializa_atual_inicio(t_lista *l);
-//int inicializa_atual_fim(t_lista *l);
-//void incrementa_atual(t_lista *l);
-//void decrementa_atual(t_lista *l);
-//int consulta_item_atual(int *item, t_lista *atual);
+int inicializa_atual_inicio(t_lista *l) {
+
+	if (lista_vazia(l))
+		return 0;
+
+	l->atual = l->ini->prox;
+	return 1;
+}
+int inicializa_atual_fim(t_lista *l) {
+
+	if (lista_vazia(l))
+		return 0;
+
+	l->atual = l->fim->prev;
+	return 1;
+
+}
+void incrementa_atual(t_lista *l) {
+
+	t_nodo *aux;
+	/*se a lista não estiver vazia*/
+	if (! lista_vazia(l)) {
+		if (l->tamanho > 1) { /*se a lista tiver mais de um elemento*/
+			aux = l->atual;
+			l->atual = aux->prox;	
+		}
+	}
+}
+void decrementa_atual(t_lista *l) {
+
+	t_nodo *aux;
+	/*se a lista não estiver vazia*/
+	if (! lista_vazia(l)) {
+		if (l->tamanho > 1) { /*se a lista tiver mais de um elemento*/
+			aux = l->atual;
+			l->atual = aux->prev;
+		}
+	}
+}
+/*int consulta_item_atual(int *item, t_lista *atual) {
+
+	if (lista_vazia(l))
+		return 0;
+
+	
+}*/
 //int remove_item_atual(int *item, t_lista *l);
