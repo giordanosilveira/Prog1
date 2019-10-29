@@ -1,6 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lib_lista.h"
+void imprime_lista (t_lista *l) {
+
+	t_nodo *aux;
+	if (lista_vazia(l) != 1) {
+		aux = l->ini->prox;
+		while (aux->prox != l->fim) {
+			printf ("%d ", aux->chave);
+			aux = aux->prox;
+		}
+		printf ("%d ", aux->chave);
+		printf ("\n");
+	}
+}
 int inicializa_lista(t_lista *l) {
 
 	t_nodo *ini, *fim;
@@ -34,8 +47,8 @@ int inicializa_lista(t_lista *l) {
 int lista_vazia(t_lista *l) {
 
 	if (l->tamanho == 0)
-		return 0;
-	return 1;
+		return 1;
+	return 0;
 }
 void destroi_lista(t_lista *l) {
 
@@ -113,11 +126,12 @@ int insere_ordenado_lista(int item, t_lista *l) {
 	while (p->chave < item)
 		p = p->prox;
 	
-	if (p == l->fim)
+	if (p == l->fim) 
 		return insere_fim_lista(item,l);
 	else {
 		l->tamanho++;
-		
+
+		novo->chave = item;		
 		novo->prox = p;
 		novo->prev = p->prev;
 	
@@ -127,18 +141,15 @@ int insere_ordenado_lista(int item, t_lista *l) {
 	return 1;
 }
 int remove_inicio_lista(int *item, t_lista *l) {
-
-	t_nodo *aux;
 	
 	if (lista_vazia (l))
 		return 0;
-	
-	aux = l->ini->prox;
 
 	*item = l->ini->prox->chave;
-	l->ini->prox = aux->prox;
-	aux->prox->prev = l->ini;
-	free (l->ini->prox);
+
+	l->ini->prox = l->ini->prox->prox;
+	free (l->ini->prox->prev);
+	l->ini->prox->prev = l->ini;
 
 	l->tamanho--;
 	
@@ -166,34 +177,24 @@ int remove_fim_lista(int *item, t_lista *l) {
 }
 int remove_item_lista(int chave, int *item, t_lista *l) {
 
-	t_nodo *aux;
 
 	if (lista_vazia(l))
 		return 0;
 
-	/*se o elemento esta em primeiro da lista*/
-	if (chave == l->ini->prox->chave) {
-		return (remove_inicio_lista(item,l));
-	}
-
-	/*se o elemento esta em ultimo da lista*/
-	if (chave == l->fim->prev->chave)
-		return (remove_fim_lista(item,l));
-
-	/*caso geral*/
-	
-	aux = l->ini->prox;
 	l->fim->chave = chave;
-	
-	while (aux->chave != chave)
+
+	t_nodo *aux;
+	aux = l->ini;	
+	while (aux->prox->chave != chave)
 		aux = aux->prox;
 
-	if (aux == l->fim)
+	if (aux == l->fim->prev)
 		return 0;
 
-	aux->prox->prev = aux->prev;
-	aux->prev->prox = aux->prox;
-	free (aux);
+	aux->prox = aux->prox->prox;
+	free (aux->prox->prev);
+	aux->prox->prev = aux;
+	*item = chave;
 
 	l->tamanho--;
 	return 1;

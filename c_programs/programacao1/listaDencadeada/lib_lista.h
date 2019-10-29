@@ -23,6 +23,8 @@ struct t_lista {
 };
 typedef struct t_lista t_lista;
 
+void imprime_lista (t_lista *l);
+
 /*
   Cria uma lista vazia. Ela eh duplamente encadeada e tem sentinelas no
   inicio e no final. Tambem tem um apontador para um elemento qualquer.
@@ -127,3 +129,5 @@ int consulta_item_atual(int *item, t_lista *l);
   Retorna 1 se houve sucesso e zero caso contrário.
 */
 int remove_item_atual(int *item, t_lista *l);
+
+/*imprime a lista se possivel*/
