@@ -37,7 +37,21 @@ int lista_vazia(t_lista *l) {
 		return 0;
 	return 1;
 }
-//void destroi_lista(t_lista *l);
+void destroi_lista(t_lista *l) {
+
+	t_nodo *aux;
+
+	aux = l->ini->prox;
+	if (! lista_vazia(l)) {
+		while (aux->prox != NULL) {
+			aux = aux->prox;
+			free (aux->prev);
+			l->tamanho--;
+		}
+		free (l->fim);
+		free (l->ini);
+	}
+}
 int insere_inicio_lista(int item, t_lista *l) {
 
 	t_nodo *new;
@@ -82,7 +96,36 @@ int insere_fim_lista(int item, t_lista *l){
 
 	return 1;
 }
-//int insere_ordenado_lista(int item, t_lista *l);
+int insere_ordenado_lista(int item, t_lista *l) {
+
+	t_nodo *novo,*p;
+
+	if (lista_vazia(l))
+		return insere_inicio_lista(item,l);
+
+	novo = (t_nodo *)malloc(sizeof(t_nodo));
+	if (novo == NULL)
+		return 0;
+
+	l->fim->chave = item;
+	
+	p = l->ini->prox;
+	while (p->chave < item)
+		p = p->prox;
+	
+	if (p == l->fim)
+		return insere_fim_lista(item,l);
+	else {
+		l->tamanho++;
+		
+		novo->prox = p;
+		novo->prev = p->prev;
+	
+		p->prev = novo;
+		novo->prev->prox = novo;
+	}
+	return 1;
+}
 int remove_inicio_lista(int *item, t_lista *l) {
 
 	t_nodo *aux;
@@ -138,18 +181,22 @@ int remove_item_lista(int chave, int *item, t_lista *l) {
 		return (remove_fim_lista(item,l));
 
 	/*caso geral*/
-	int i;
 	
-	aux = l->ini->prev->prev;
-	for (i = 2; i < l->tamanho; i++) {
-		if (chave == aux->chave) {
-			*item = aux->chave;
-			l->tamanho--;
-			return 1;
-		}
-		aux = aux->prev;
-	}
-	return 0;
+	aux = l->ini->prox;
+	l->fim->chave = chave;
+	
+	while (aux->chave != chave)
+		aux = aux->prox;
+
+	if (aux == l->fim)
+		return 0;
+
+	aux->prox->prev = aux->prev;
+	aux->prev->prox = aux->prox;
+	free (aux);
+
+	l->tamanho--;
+	return 1;
 }
 int pertence_lista(int chave, t_lista *l) {
 
@@ -159,14 +206,14 @@ int pertence_lista(int chave, t_lista *l) {
 		return 0;
 
 	aux = l->ini->prox;
-	while (aux->prox != l->fim) {
-		if (chave == aux->chave)
-			return 1;
+	l->fim->chave = chave;
+
+	while (aux->chave != chave) 
 		aux = aux->prox;
-	}
-	if (aux->chave == chave)
-		return 1;
-	return 0;
+
+	if (aux == l->fim)
+		return 0;
+	return 1;
 }
 int inicializa_atual_inicio(t_lista *l) {
 
@@ -207,11 +254,34 @@ void decrementa_atual(t_lista *l) {
 		}
 	}
 }
-/*int consulta_item_atual(int *item, t_lista *atual) {
+int consulta_item_atual(int *item, t_lista *l) {
 
 	if (lista_vazia(l))
 		return 0;
 
-	
-}*/
-//int remove_item_atual(int *item, t_lista *l);
+	*item = l->atual->chave;
+	return 1;
+}
+int remove_item_atual(int *item, t_lista *l) {
+
+	if (lista_vazia(l))
+		return 0;
+
+	t_nodo *aux;
+
+	*item = l->atual->chave;
+	aux = l->atual;
+
+	l->atual->prox->prev = aux->prev;
+	l->atual->prev->prox = aux->prox;
+
+	if (l->atual->prox == l->fim)
+		l->atual = NULL;	
+	else
+		l->atual = l->atual->prox;
+		
+	l->tamanho--;
+	free (aux);
+
+	return 1;
+}
