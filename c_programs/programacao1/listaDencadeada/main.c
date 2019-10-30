@@ -87,7 +87,6 @@ int tremlista (t_lista *l, t_lista *c, t_lista *o, t_lista *p) {
 	}
 	printf ("Tamanho lista l: %d\n", l->tamanho);
 	imprime_lista (o);
-	printf ("\n");
 	
 	printf ("Remove fim da lista\n");
 	while (! lista_vazia(c)) {
@@ -96,7 +95,6 @@ int tremlista (t_lista *l, t_lista *c, t_lista *o, t_lista *p) {
 	}
 	printf ("Tamanho lista c: %d\n", c->tamanho);
 	imprime_lista (p);
-	printf ("\n");
 
 	printf ("Remove item\n");	
 	if (! trmchvlist (o,p)) return 0;
@@ -112,15 +110,14 @@ int tremlista (t_lista *l, t_lista *c, t_lista *o, t_lista *p) {
 void trmatlist (t_lista *l) {
 
 	int lixo;
+	
+	printf ("Teste: Remove atual da lista\n");
 
-	while (! remove_item_atual (&lixo,l))
-		printf ("Removendo o item atual %d da lista ", lixo);
+	if (remove_item_atual(&lixo,l)) printf ("O atual %d for removido\n", lixo);
+	if (remove_item_atual(&lixo,l)) printf ("O atual %d for removido\n", lixo);
 
-	if (lista_vazia(l))
-		printf ("Lista vazia\n");
-
-	if (p->atual == l->fim->prev)
-		printf ("Não é possível mais remover\n");
+	if (consulta_item_atual(&lixo,l)) printf ("O atual elemento: %d", lixo);
+	printf ("\n");
 }
 int tatlista (t_lista *l, t_lista *c, t_lista *o, t_lista *p) {
 
@@ -155,9 +152,10 @@ int tatlista (t_lista *l, t_lista *c, t_lista *o, t_lista *p) {
 			printf ("%d ",p->atual->chave);
 		aux = aux->prev;
 	}
+	printf ("\n");
 
-	/*trmatlist (&p);
-	trmatlist (&o);*/
+	trmatlist (p);
+	trmatlist (o);
 
 	return 1;
 }
@@ -191,17 +189,72 @@ int tinslista (t_lista *l, t_lista *c, t_lista *o, t_lista *p) {
 
 	return 1;
 }
+int tperlista (t_lista *o, t_lista *p) {
+
+	printf ("Teste: pertencimento\n");
+	if (pertence_lista(6,p)) printf ("O 6 pertence a lista p\n");	
+	if (pertence_lista(4,p)) printf ("O 4 pertence a lista p\n");
+	if (pertence_lista(0,p)) printf ("O 0 pertence a lista p\n");
+	if (pertence_lista(1,p)) {
+		return 0;
+		printf ("O 1 pertence a lista\n");
+	}
+	if (pertence_lista(7,o)) printf ("O 7 pertence a lista o\n");
+	if (pertence_lista(9,o)) printf ("O 9 pertence a lista o\n");
+	if (pertence_lista(4,o)) {
+		return 0;
+		printf ("O 4 pertence a lista\n");
+	}
+	return 1;
+}
+void tdstlist (t_lista *l, t_lista *c, t_lista *o, t_lista *p) {
+
+	int tam;
+
+	printf ("Destruindo a lista l\n");
+	destroi_lista (l);
+	tamanho_lista (&tam,l);	
+	printf ("Tamanho lista l: %d -> ", tam);
+	imprime_lista (l);
+
+	printf ("\n");
+	printf ("Destruindo a lista c\n");
+	destroi_lista (c);
+	tamanho_lista (&tam,c);	
+	printf ("Tamanho lista c: %d -> ", tam);
+	imprime_lista (c);
+
+	printf ("\n");
+	printf ("Destruindo a lista o\n");
+	destroi_lista (o);
+	tamanho_lista (&tam,o);	
+	printf ("Tamanho lista o: %d -> ", tam);
+	imprime_lista (o);
+
+	printf ("\n");
+	printf ("Destruindo a lista p\n");
+	destroi_lista (p);
+	tamanho_lista (&tam,p);	
+	printf ("Tamanho lista p: %d -> ", tam);
+	imprime_lista (p);
+
+	printf ("\n");
+}
 int main () {
 
 	t_lista l,c,o,p;
 
 	if (! tclista (&l,&c,&o,&p)) return 1;
+		printf ("\n");
 	if (! tinslista(&l,&c,&o,&p)) return 1;
+		printf ("\n");
 	if (! tremlista(&l,&c,&o,&p)) return 1;
+		printf ("\n");
 	if (! tatlista(&l,&c,&o,&p)) return 1;
-	//if (! tperlista(&l,&c,&o,&p)) return 1;
-	//if (! tdstlista(&l,&c,&o,&p)) return 1;
-		
+		printf ("\n");
+	if (! tperlista(&o,&p)) return 1;
+		printf ("\n");
+	tdstlist (&l,&c,&o,&p);	
 	return 0;
 
 }

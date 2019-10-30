@@ -265,24 +265,26 @@ int consulta_item_atual(int *item, t_lista *l) {
 }
 int remove_item_atual(int *item, t_lista *l) {
 
+	t_nodo *p;
+
 	if (lista_vazia(l))
 		return 0;
 
-	t_nodo *aux;
-
 	*item = l->atual->chave;
-	aux = l->atual;
 
-	l->atual->prox->prev = aux->prev;
-	l->atual->prev->prox = aux->prox;
+	p = l->atual;	
 
-	if (l->atual->prox == l->fim)
-		l->atual = NULL;	
+	l->atual->prev->prox = l->atual->prox;
+	l->atual->prox->prev = l->atual->prev;
+
+	if (l->atual->prox == l->fim) {
+		l->atual = l->atual->prev;
+	}	
 	else
 		l->atual = l->atual->prox;
 		
 	l->tamanho--;
-	free (aux);
+	free (p);
 
 	return 1;
 }
