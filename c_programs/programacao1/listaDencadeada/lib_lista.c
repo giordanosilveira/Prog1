@@ -233,27 +233,27 @@ int inicializa_atual_fim(t_lista *l) {
 	return 1;
 
 }
-void incrementa_atual(t_lista *l) {
+int incrementa_atual(t_lista *l) {
 
-	t_nodo *aux;
 	/*se a lista não estiver vazia*/
-	if (! lista_vazia(l)) {
-		if (l->tamanho > 1) { /*se a lista tiver mais de um elemento*/
-			aux = l->atual;
-			l->atual = aux->prox;	
-		}
-	}
+	if (lista_vazia(l)) return 0;
+	
+	if (l->atual == l->fim->prev) return 0;
+
+	l->atual = l->atual->prox;
+	
+	return 1;
 }
-void decrementa_atual(t_lista *l) {
+int decrementa_atual(t_lista *l) {
 
-	t_nodo *aux;
 	/*se a lista não estiver vazia*/
-	if (! lista_vazia(l)) {
-		if (l->tamanho > 1) { /*se a lista tiver mais de um elemento*/
-			aux = l->atual;
-			l->atual = aux->prev;
-		}
-	}
+	if (lista_vazia(l)) return 0;
+
+	if (l->atual == l->ini->prox) return 0;
+
+	l->atual = l->atual->prev;
+
+	return 1;
 }
 int consulta_item_atual(int *item, t_lista *l) {
 

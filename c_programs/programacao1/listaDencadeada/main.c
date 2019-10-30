@@ -86,6 +86,8 @@ int tremlista (t_lista *l, t_lista *c, t_lista *o, t_lista *p) {
 		insere_inicio_lista (lixo,o); 	
 	}
 	printf ("Tamanho lista l: %d\n", l->tamanho);
+	imprime_lista (o);
+	printf ("\n");
 	
 	printf ("Remove fim da lista\n");
 	while (! lista_vazia(c)) {
@@ -93,16 +95,70 @@ int tremlista (t_lista *l, t_lista *c, t_lista *o, t_lista *p) {
 		insere_inicio_lista (lixo,p); 	
 	}
 	printf ("Tamanho lista c: %d\n", c->tamanho);
+	imprime_lista (p);
+	printf ("\n");
 
 	printf ("Remove item\n");	
 	if (! trmchvlist (o,p)) return 0;
 
 	printf ("Tamanho lista o: %d\n", o->tamanho);
-	printf ("Tamanho lista p: %d\n", p->tamanho);
-
 	imprime_lista (o);
+
+	printf ("Tamanho lista p: %d\n", p->tamanho);
 	imprime_lista (p);
 	
+	return 1;
+}
+void trmatlist (t_lista *l) {
+
+	int lixo;
+
+	while (! remove_item_atual (&lixo,l))
+		printf ("Removendo o item atual %d da lista ", lixo);
+
+	if (lista_vazia(l))
+		printf ("Lista vazia\n");
+
+	if (p->atual == l->fim->prev)
+		printf ("Não é possível mais remover\n");
+}
+int tatlista (t_lista *l, t_lista *c, t_lista *o, t_lista *p) {
+
+	t_nodo *aux;
+
+	printf ("Teste: atual\n");
+	if (inicializa_atual_inicio(l)) {
+		printf ("Atual no inicio da lista f %d\n", l->atual->chave);
+		return 0;
+	}
+	if (inicializa_atual_fim(c)) {
+		printf ("Atual no fim da lista c %d\n", c->atual->chave);
+		return 0;
+	}
+
+	if (inicializa_atual_inicio(o)) printf ("Atual no inicio da lista o: %d\n", o->atual->chave);
+	if (inicializa_atual_fim(p)) printf ("Atual no fim da lista p: %d\n", p->atual->chave);
+
+	printf ("Testa incrementa atual - lista o\n");	
+	aux = o->ini->prox;
+	while (aux != o->fim) {
+		if (incrementa_atual (o))
+			printf ("%d ",o->atual->chave);
+		aux = aux->prox;
+	}
+	printf ("\n");
+	
+	printf ("Testa decrementa atual - lista p\n");
+	aux = p->fim->prev;
+	while (aux != p->ini) {
+		if (decrementa_atual (p))
+			printf ("%d ",p->atual->chave);
+		aux = aux->prev;
+	}
+
+	/*trmatlist (&p);
+	trmatlist (&o);*/
+
 	return 1;
 }
 int tinslista (t_lista *l, t_lista *c, t_lista *o, t_lista *p) {
@@ -142,7 +198,7 @@ int main () {
 	if (! tclista (&l,&c,&o,&p)) return 1;
 	if (! tinslista(&l,&c,&o,&p)) return 1;
 	if (! tremlista(&l,&c,&o,&p)) return 1;
-	//if (! tatlista(&l,&c,&o,&o)) return 1;
+	if (! tatlista(&l,&c,&o,&p)) return 1;
 	//if (! tperlista(&l,&c,&o,&p)) return 1;
 	//if (! tdstlista(&l,&c,&o,&p)) return 1;
 		

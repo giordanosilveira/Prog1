@@ -108,14 +108,14 @@ int inicializa_atual_fim(t_lista *l);
   este ponteiro. Se atual estiver apontando para o último, isto é, não 
   tem próximo, retorna NULL.
 */
-void incrementa_atual(t_lista *l);
+int incrementa_atual(t_lista *l);
 
 /*
   Faz o ponteiro atual apontar para o nodo anterior da lista l e retorna 
   este ponteiro. Se atual estiver apontando para o primeiro, isto é, não 
   tem anterior, retorna NULL.
 */
-void decrementa_atual(t_lista *l);
+int decrementa_atual(t_lista *l);
 
 /*
   Retorna em *item o valor contido na chave apontada pelo ponteiro atual. 
