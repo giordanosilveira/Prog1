@@ -1,0 +1,69 @@
+Teste: Cria listas
+Criando lista l
+Criando lista c
+Criando lista o
+Criando lista p
+
+Teste: Insere nas listas
+Insere no início da lista
+Tamanho lista l: 7
+13 11 9 7 5 3 1 
+Insere no fim da lista
+Tamanho lista c: 7
+0 2 4 6 8 10 12 
+Insere ordenado na lista
+Tamanho lista c: 13
+0 0 1 2 3 4 5 6 7 8 10 12 15 
+
+Teste: Remoção
+Remove início da lista
+Tamanho lista l: 0
+1 3 5 7 9 11 13 
+Remove fim da lista
+Tamanho lista c: 0
+15 12 10 8 7 6 5 4 3 2 1 0 0 
+Remove item
+O 3 foi removido da lista o
+O 5 foi removido da lista o
+O 0 foi removido da lista p
+O 1 foi removido da lista p
+O 5 foi removido da lista p
+O 7 foi removido da lista p
+O 10 foi removido da lista p
+O 12 foi removido da lista p
+Tamanho lista o: 5
+1 7 9 11 13 
+Tamanho lista p: 7
+15 8 6 4 3 2 0 
+
+Teste: atual
+Atual no inicio da lista o: 1
+Atual no fim da lista p: 0
+Testa incrementa atual - lista o
+7 9 11 13 
+Testa decrementa atual - lista p
+2 3 4 6 8 15 
+Teste: Remove atual da lista
+O atual 15 for removido
+O atual 8 for removido
+O atual elemento: 6
+Teste: Remove atual da lista
+O atual 13 for removido
+O atual 11 for removido
+O atual elemento: 9
+
+Teste: pertencimento
+O 6 pertence a lista p
+O 4 pertence a lista p
+O 0 pertence a lista p
+O 7 pertence a lista o
+O 9 pertence a lista o
+
+Destruindo a lista l
+Tamanho lista l: 0 -> 
+Destruindo a lista c
+Tamanho lista c: 0 -> 
+Destruindo a lista o
+Tamanho lista o: 0 -> 
+Destruindo a lista p
+Tamanho lista p: 0 -> 
