@@ -1,65 +1,96 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ncurses.h>
-#include <unisted.h>
+#include <unistd.h>
+#include <string.h>
 
-#define ET11 "/*-*\\"
-#define ET12 "|/O\\|"
-#define ET13 "\\/-\\/"
-#define ET112 "/*-*\\"
-#define ET122 "_/O\\_"
-#define ET132 "\\/|\\/"
+#include "defstr_si.h"
+#define DELAY 80000
+#define MAX_X 38
+#define MAX_Y 100
+void initalins (t_aliens *et1, t_aliens *et2, t_aliens *et3) {
+/*inicializa a struct aliens*/
 
-#define ET21 "|O.O|"
-#define ET22 ")_O_("
-#define ET23 "V*+*V"
-#define ET212 "/o.o\\"
-#define ET222 "/|_|\\"
-#define ET223 "(_O_)"
+	strcpy (et1->corpo1,ET11);
+	strcpy (et1->corpo2,ET12);
+	strcpy (et1->corpo3,ET13);
+	et1->status = 1;
+	et1->versao = 1;
+	
+	strcpy (et2->corpo1,ET21);
+	strcpy (et2->corpo2,ET22);
+	strcpy (et2->corpo3,ET23);
+	et2->status = 1;
+	et2->versao = 1;
 
-#define ET31 
-#define ET32
-#define ET33
-#define ET312 
-#define ET322
-#define ET332
+	strcpy (et3->corpo1,ET31);
+	strcpy (et3->corpo2,ET32);
+	strcpy (et3->corpo3,ET33);
+	et3->status = 1;
+	et3->versao = 1;
+}
+void prnalienspsatual (t_aliens *et1, t_aliens *et2, t_aliens *et3, int coluna, int linha) {
+
+	int i,j;
+
+	for (i = 0; i < 5 ; i++) {	
+		for (j = 0; j < 11; j++) {
+			if (i == 0) {
+				mvprintw (linha+4*i,coluna+7*j,et1->corpo1); 
+				mvprintw (linha+4*i+1,coluna+7*j,et1->corpo2); 
+				mvprintw (linha+4*i+2,coluna+7*j,et1->corpo3);
+			}
+			else if (i > 0 && i < 3) {
+				mvprintw (linha+4*i,coluna+7*j,et2->corpo1); 
+				mvprintw (linha+4*i+1,coluna+7*j,et2->corpo2); 
+				mvprintw (linha+4*i+2,coluna+7*j,et2->corpo3);
+			}
+			else {
+				mvprintw (linha+4*i,coluna+7*j,et3->corpo1);
+				mvprintw (linha+4*i+1,coluna+7*j,et3->corpo2); 
+				mvprintw (linha+4*i+2,coluna+7*j,et3->corpo3); 
+			}
+		}
+	}
+}
 int main () {
 
-	/* coisas do moodle...*/
-	initscr(); 
-    	cbreak();           
-    	noecho();            
-    	nodelay(stdscr, TRUE);
-   	keypad(stdscr, TRUE);  
-    	curs_set(FALSE);
+  	t_aliens alien1, alien2, alien3;
 
-	
+        int pos_x, pos_y; /*Aonde eu printo na tela*/
+        int max_x,max_y;
+        int prox_x = 0,direcao = 1;
 
-	
+	initalins (&alien1,&alien2,&alien3);
 
-
-
-
-
-
+        initscr ();
+        noecho ();
+        curs_set (FALSE);
+        getmaxyx (stdscr, max_y, max_x);
+		
+	pos_x = 5;
+	pos_y = 5;
 
 
+        while (1) {
+		
+		clear ();
 
+		prnalienspsatual (&alien1,&alien2,&alien3,pos_x,pos_y);
 
+               	refresh ();
+ 
+               	usleep (DELAY);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
+		prox_x = pos_x + direcao;
+ 
+                if (prox_x >= 100 - 77|| prox_x < 0) {
+			pos_y++;
+                   	direcao *= -1;
+		}
+	        else
+                        pos_x += direcao;
+         }
+         endwin ();
+	 return 0;
+ }
