@@ -23,7 +23,7 @@ struct t_lista {
 };
 typedef struct t_lista t_lista;
 
-void imprime_lista (t_lista *l);
+/*void imprime_lista (t_lista *l);*/
 
 /*
   Cria uma lista vazia. Ela eh duplamente encadeada e tem sentinelas no
