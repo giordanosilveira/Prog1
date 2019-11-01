@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "lib_lista.h"
-/*void imprime_lista (t_lista *l) {
+void imprime_lista (t_lista *l) {
 
 	t_nodo *aux;
 	if (lista_vazia(l) != 1) {
@@ -13,7 +13,7 @@
 		printf ("%d ", aux->chave);
 		printf ("\n");
 	}
-}*/
+}
 int inicializa_lista(t_lista *l) {
 
 	t_nodo *ini, *fim;
@@ -61,9 +61,9 @@ void destroi_lista(t_lista *l) {
 			free (aux->prev);
 			l->tamanho--;
 		}
-		free (l->fim);
-		free (l->ini);
 	}
+	free (l->fim);
+	free (l->ini);
 }
 int insere_inicio_lista(int item, t_lista *l) {
 
