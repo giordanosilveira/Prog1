@@ -86,31 +86,26 @@ int main () {
 	printf ("Destuindo a lista 1\n");
 	destroi_lista (&lst1);
 	printf ("Tamanho da lista 1 %d ->", lst1.tamanho);
-	imprime_lista (&lst1);
 	printf ("\n");
 
 	printf ("Destuindo a lista 2\n");
 	destroi_lista (&lst2);
 	printf ("Tamanho da lista 2 %d ->", lst2.tamanho);
-	imprime_lista (&lst2);
 	printf ("\n");
 
 	printf ("Destuindo a lista 3\n");
 	destroi_lista (&lst3);
 	printf ("Tamanho da lista 3 %d ->", lst3.tamanho);
-	imprime_lista (&lst3);
 	printf ("\n");
 
 	printf ("Destuindo a lista 4\n");
 	destroi_lista (&lst4);
 	printf ("Tamanho da lista 4 %d ->", lst4.tamanho);
-	imprime_lista (&lst4);
 	printf ("\n");
 
 	printf ("Destuindo a lista 5\n");
 	destroi_lista (&lst5);
 	printf ("Tamanho da lista 5 %d ->", lst5.tamanho);
-	imprime_lista (&lst5);
 	printf ("\n");
 
 	return 0;
