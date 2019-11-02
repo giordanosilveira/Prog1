@@ -76,6 +76,7 @@ int intercala_listas (t_lista *l, t_lista *m, t_lista *i) {
 	inicializa_atual_inicio (m);
 
 	if (tam1 > tam2) {
+		printf ("aqui\n");
 		for (j = 0; j < tam2; j++) {
 			consulta_item_atual (&item1,l);
 			consulta_item_atual (&item2,m);
@@ -91,12 +92,14 @@ int intercala_listas (t_lista *l, t_lista *m, t_lista *i) {
 			incrementa_atual (m);
 		}
 		for (j = tam2; j < tam1; j++) {
+			printf ("banana\n");
 			consulta_item_atual (&item1,l);
-			insere_fim_lista (item1,l);
+			insere_fim_lista (item1,i);
 			incrementa_atual (l);
 		}
 	}
 	else {
+		printf ("aqui 2 \n");
 		for (j = 0; j < tam1; j++) {
 			consulta_item_atual (&item1,l);
 			consulta_item_atual (&item2,m);
@@ -112,6 +115,7 @@ int intercala_listas (t_lista *l, t_lista *m, t_lista *i) {
 			incrementa_atual (m);
 		}
 		for (j = tam1; j < tam2; j++) {
+			printf ("beterraba\n");
 			consulta_item_atual (&item1,m);
 			insere_fim_lista (item1,i);
 			incrementa_atual (m);
