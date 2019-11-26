@@ -1,4 +1,4 @@
-#define MAX 100
+#define MAX 10000
 #define RANGE 60
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,7 +7,7 @@
 struct heap
 { 
     int heapsize;
-    int array [100];
+    int array [MAX];
 };
 typedef struct heap t_heap; 
 
@@ -86,18 +86,15 @@ void heapsort (t_heap *heap) {
 int main () {
 
     t_heap heap;
-    heap.heapsize = 40;
+    heap.heapsize = 1000;
 
     srand (time(NULL));
 
     buildarray (&heap);
-    printarray (&heap,heap.heapsize);
 
     build_maxheap (&heap);
-    printarray (&heap,heap.heapsize);
 
     heapsort (&heap);
-    printf ("Vetor ordenado -> ");
     printarray (&heap,heap.heapsize);
 
     return 0;
