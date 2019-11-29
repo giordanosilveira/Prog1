@@ -1,0 +1,20 @@
+Tree is a linked data structure in which each node is an object.
+Each node contains:
+    o Left
+    o right
+    o p (nodes corresponding to its left child, its right child, and its parent, respectively).
+
+If a child or the parent is missing, the appropriate attribute contains the value NULL. The root node is the only node in the tree whose parent is NULL.
+
+Binary-search-tree property:
+    Let x be a node in a binary search tree. If y is a node in the left subtree of x, then y.key <= x.key. if y is a node in the right subtree of x, then y.key >= x.key.
+
+        6
+    5       7  
+2   |   5     |   8
+    |nao pode |
+    |ser menor|
+    |q 2.     |
+
+The BST - P allows us to print out all the keys in a binary seach tree in sorted order by a simple recursive algorithm:
+    o inorder tree walk
